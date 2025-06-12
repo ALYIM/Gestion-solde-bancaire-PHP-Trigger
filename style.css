@@ -1,0 +1,96 @@
+/* --- Réinitialisation et police --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* --- Style général --- */
+body {
+    background-color: #f8f9fa;
+    color: #333;
+    padding: 20px;
+}
+
+/* --- Conteneur principal --- */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Titre --- */
+h1 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+/* --- Navigation --- */
+.navbar {
+    background: #007bff;
+    padding: 10px;
+    text-align: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    display: inline-block;
+}
+
+.navbar a:hover {
+    background: #0056b3;
+}
+
+/* --- Boutons --- */
+.button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* --- Tableaux --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #007bff;
+    color: white;
+}
+
+/* --- Ligne alternée pour lisibilité --- */
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* --- Pied de page --- */
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
