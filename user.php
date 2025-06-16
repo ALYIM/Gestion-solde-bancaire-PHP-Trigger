@@ -691,7 +691,7 @@ $initial = strtoupper(substr($username, 0, 1));
                                     echo "<tr>
                                             <td><strong>#{$row['num_compte']}</strong></td>
                                             <td>{$row['nom_client']}</td>
-                                            <td><strong>{$solde_formatted} €</strong></td>
+                                            <td><strong>{$solde_formatted} AR</strong></td>
                                             <td>
                                                 <div class='action-buttons'>
                                                     <button class='btn-action btn-edit' onclick='openModifyModal({$row['num_compte']}, {$row['solde']})'>

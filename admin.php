@@ -62,6 +62,17 @@ try {
     $recentTransactions = [];
     error_log("Erreur base de données: " . $e->getMessage());
 }
+
+$sql_users = "SELECT * FROM users ORDER BY id DESC";
+$result_users = $conn->query($sql_users);
+
+$users = [];
+if ($result_users->num_rows > 0) {
+    while($row = $result_users->fetch_assoc()) {
+        $users[] = $row;
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -632,8 +643,9 @@ try {
         </div>
         
         <nav class="nav-menu">
-            <a href="#" class="nav-item active" data-section="dashboard">
-                <i class="fas fa-tachometer-alt"></i>
+             
+            <a href="#" class="nav-item" data-section="users">
+                <i class="fas fa-users"></i>
                 Dashboard
             </a>
             <a href="#" class="nav-item" data-section="users">
@@ -648,14 +660,7 @@ try {
                 <i class="fas fa-user-plus"></i>
                 Créer Utilisateur
             </a>
-            <a href="#" class="nav-item" data-section="create-account">
-                <i class="fas fa-plus-circle"></i>
-                Créer Compte
-            </a>
-            <a href="#" class="nav-item" data-section="transactions">
-                <i class="fas fa-exchange-alt"></i>
-                Transactions
-            </a>
+            
             <a href="audit.php" class="nav-item">
                 <i class="fas fa-clipboard-list"></i>
                 Audit
@@ -750,21 +755,12 @@ try {
             <!-- Récentes transactions -->
             <div class="content-section" style="display: block;">
                 <div class="section-header">
-                    <h3 class="section-title">
-                        <i class="fas fa-clock"></i>
-                        Activité Récente
-                    </h3>
+                   
                 </div>
                 
                 <table class="data-table">
                     <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Montant</th>
-                            <th>Compte</th>
-                            <th>Date</th>
-                            <th>Statut</th>
-                        </tr>
+                        
                     </thead>
                     <tbody>
                         <?php foreach ($recentTransactions as $transaction): ?>
@@ -782,11 +778,7 @@ try {
                         <?php endforeach; ?>
                         
                         <?php if (empty($recentTransactions)): ?>
-                        <tr>
-                            <td colspan="5" style="text-align: center; color: #666;">
-                                Aucune transaction récente
-                            </td>
-                        </tr>
+                        
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -852,154 +844,156 @@ try {
     </form>
 </div>
 
-        <!-- Create Account Section -->
-        <div id="create-account" class="content-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-plus-circle"></i>
-                    Créer un Compte
-                </h2>
-            </div>
-            
-            <form method="post" action="create_account.php" id="createAccountForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="client_name">Nom du client</label>
-                        <input type="text" id="client_name" name="client_name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="initial_balance">Solde initial</label>
-                        <input type="number" step="0.01" id="initial_balance" name="initial_balance" value="0.00" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="account_type">Type de compte</label>
-                        <select id="account_type" name="account_type" required>
-                            <option value="">Sélectionner un type</option>
-                            <option value="courant">Compte courant</option>
-                            <option value="epargne">Compte épargne</option>
-                            <option value="pro">Compte professionnel</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-plus"></i>
-                    Créer le compte
-                </button>
-            </form>
-        </div>
+       
 
         <!-- Users Section -->
-        <div id="users" class="content-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                                        <i class="fas fa-users"></i>
-                    Liste des Utilisateurs
-                </h2>
-                <button class="btn btn-secondary" onclick="refreshUsers()">
-                    <i class="fas fa-sync-alt"></i> Actualiser
-                </button>
-            </div>
-            
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom d'utilisateur</th>
-                        <th>Rôle</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($users as $user): ?>
-                    <tr>
-                        <td><?php echo $user['id']; ?></td>
-                        <td><?php echo htmlspecialchars($user['username']); ?></td>
-                        <td>
-                            <span class="status-badge <?php echo $user['role'] == 1 ? 'status-admin' : 'status-user'; ?>">
-                                <?php echo $user['role'] == 1 ? 'Admin' : 'Utilisateur'; ?>
-                            </span>
-                        </td>
-                        <td><span class="status-badge status-active">Actif</span></td>
-                        <td class="action-buttons">
-                            <button class="btn btn-secondary btn-sm" onclick="editUser(<?php echo $user['id']; ?>)">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="confirmDeleteUser(<?php echo $user['id']; ?>)">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
+<div id="users" class="content-section">
+    <div class="section-header">
+        <h2 class="section-title">
+            <i class="fas fa-users"></i>
+            Liste des Utilisateurs
+        </h2>
+        <button class="btn btn-secondary" onclick="refreshUsers()">
+            <i class="fas fa-sync-alt"></i> Actualiser
+        </button>
+    </div>
+    
+    <div class="users-stats">
+        <p><strong><?php echo count($users); ?></strong> utilisateur(s) dans la base de données</p>
+    </div>
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom d'utilisateur</th>
+                <th>Rôle</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($users)): ?>
+                <?php foreach ($users as $user): ?>
+                <tr>
+                    <td><strong>#<?php echo htmlspecialchars($user['id']); ?></strong></td>
+                    <td><?php echo htmlspecialchars($user['username']); ?></td>
                     
-                    <?php if (empty($users)): ?>
-                    <tr>
-                        <td colspan="5" style="text-align: center; color: #666;">
-                            Aucun utilisateur trouvé
-                        </td>
-                    </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+                    <td>
+                        <?php 
+                        // Conversion role_id en texte
+                        $role_text = '';
+                        $role_class = '';
+                        $role_icon = '';
+                        
+                        switch($user['role_id']) {
+                            case 1:
+                                $role_text = 'Administrateur';
+                                $role_class = 'status-admin';
+                                $role_icon = 'fa-crown';
+                                break;
+                            case 2:
+                                $role_text = 'Utilisateur';
+                                $role_class = 'status-user';
+                                $role_icon = 'fa-user';
+                                break;
+                            default:
+                                $role_text = 'Non défini';
+                                $role_class = 'status-inactive';
+                                $role_icon = 'fa-question';
+                        }
+                        ?>
+                        <span class="status-badge <?php echo $role_class; ?>">
+                            <i class="fas <?php echo $role_icon; ?>"></i>
+                            <?php echo $role_text; ?>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge status-active">
+                            <i class="fas fa-check-circle"></i>
+                            Actif
+                        </span>
+                    </td>
+                    <td class="action-buttons">
+                        <button class="btn btn-secondary btn-sm" onclick="editUser(<?php echo $user['id']; ?>)" title="Modifier">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-warning btn-sm" onclick="changeUserRole(<?php echo $user['id']; ?>, <?php echo $user['role_id']; ?>)" title="Changer le rôle">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="confirmDeleteUser(<?php echo $user['id']; ?>, '<?php echo htmlspecialchars($user['username']); ?>')" title="Supprimer">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+            <tr>
+                <td colspan="6" style="text-align: center; color: #666; font-style: italic; padding: 40px;">
+                    <i class="fas fa-users-slash" style="font-size: 2em; margin-bottom: 10px; display: block;"></i>
+                    <strong>Aucun utilisateur trouvé</strong>
+                    <br>
+                    <small>Vérifiez la connexion à la base de données</small>
+                </td>
+            </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 
-        <!-- Accounts Section -->
-        <div id="accounts" class="content-section">
-            <div class="section-header">
-                <h2 class="section-title">
-                    <i class="fas fa-university"></i>
-                    Liste des Comptes
-                </h2>
-                <button class="btn btn-secondary" onclick="refreshAccounts()">
-                    <i class="fas fa-sync-alt"></i> Actualiser
-                </button>
-            </div>
-            
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Numéro Compte</th>
-                        <th>Nom Client</th>
-                        <th>Solde</th>
-                        <th>Statut</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($accounts as $account): ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($account['account_number']); ?></td>
-                        <td><?php echo htmlspecialchars($account['client_name']); ?></td>
-                        <td><?php echo number_format($account['balance'], 2, ',', ' ') . ' €'; ?></td>
-                        <td>
-                            <span class="status-badge <?php echo $account['status'] == 'active' ? 'status-active' : 'status-inactive'; ?>">
-                                <?php echo $account['status'] == 'active' ? 'Actif' : 'Inactif'; ?>
-                            </span>
-                        </td>
-                        <td class="action-buttons">
-                            <button class="btn btn-secondary btn-sm" onclick="editAccount('<?php echo $account['account_number']; ?>')">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="confirmDeleteAccount('<?php echo $account['account_number']; ?>')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                    
-                    <?php if (empty($accounts)): ?>
-                    <tr>
-                        <td colspan="5" style="text-align: center; color: #666;">
-                            Aucun compte trouvé
-                        </td>
-                    </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
-        </div>
+
+       <!-- Accounts Section -->
+<div id="accounts" class="content-section">
+    <div class="section-header">
+        <h2 class="section-title">
+            <i class="fas fa-university"></i>
+            Liste des Comptes
+        </h2>
+        <button class="btn btn-secondary" onclick="refreshAccounts()">
+            <i class="fas fa-sync-alt"></i> Actualiser
+        </button>
+    </div>
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th><i class="fas fa-hashtag"></i> Numéro Compte</th>
+                <th><i class="fas fa-user"></i> Nom et Prénom Client</th>
+                <th><i class="fas fa-euro-sign"></i> Solde</th>
+                <th><i class="fas fa-cogs"></i> Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $sql = "SELECT * FROM compte ORDER BY num_compte DESC";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while($row = $result->fetch_assoc()) {
+                    $solde_formatted = number_format($row['solde'], 2, ',', ' ');
+                    echo "<tr>
+                            <td><strong>#{$row['num_compte']}</strong></td>
+                            <td>{$row['nom_client']}</td>
+                            <td><strong>{$solde_formatted} AR</strong></td>
+                            <td class='action-buttons'>
+                                <button class='btn btn-secondary btn-sm' onclick='editAccount({$row['num_compte']}, {$row['solde']})'>
+                                    <i class='fas fa-edit'></i> Modifier
+                                </button>
+                                <button class='btn btn-danger btn-sm' onclick='confirmDeleteAccount({$row['num_compte']}, \"{$row['nom_client']}\")'>
+                                    <i class='fas fa-trash'></i> Supprimer
+                                </button>
+                            </td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4' style='text-align: center; font-style: italic; color: #999;'>
+                        <i class='fas fa-inbox'></i> Aucun compte trouvé
+                      </td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
+</div>
 
         <!-- Transactions Section -->
         <div id="transactions" class="content-section">
