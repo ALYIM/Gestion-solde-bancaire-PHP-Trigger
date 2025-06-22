@@ -131,12 +131,12 @@ $initial = strtoupper(substr($username, 0, 1));
 
         .header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             animation: slideDown 0.8s ease-out;
         }
 
         .header h1 {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             margin-bottom: 0.5rem;
@@ -187,70 +187,70 @@ $initial = strtoupper(substr($username, 0, 1));
             100% { transform: scale(1); }
         }
 
-        /* Formulaire d'ajout */
+        /* Formulaire d'ajout compact */
         .form-container {
             display: flex;
             justify-content: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
             animation: fadeInUp 1s ease-out 0.3s both;
         }
 
         .add-form {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            max-width: 450px;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            max-width: 350px;
             width: 100%;
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
         }
 
         .add-form:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         .add-form h2 {
             text-align: center;
             color: #333;
-            margin-bottom: 2rem;
-            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
             position: relative;
         }
 
         .add-form h2::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
+            width: 40px;
+            height: 2px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             border-radius: 2px;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             color: #555;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .form-group input {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.9);
         }
@@ -259,22 +259,23 @@ $initial = strtoupper(substr($username, 0, 1));
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
 
         .btn-primary {
             width: 100%;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.5rem;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            margin-top: 0.5rem;
         }
 
         .btn-primary::before {
@@ -294,7 +295,7 @@ $initial = strtoupper(substr($username, 0, 1));
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
 
         /* Liste des comptes */
@@ -304,8 +305,8 @@ $initial = strtoupper(substr($username, 0, 1));
 
         .section-title {
             color: white;
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
@@ -325,14 +326,7 @@ $initial = strtoupper(substr($username, 0, 1));
         }
 
         th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 1.5rem 1rem;
-            text-align: left;
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #667eea, #764ba2);  color: white;  padding: 1.5rem 1rem;  text-align: left;  font-weight: 600; font-size: 1rem; text-transform: uppercase;  letter-spacing: 0.5px;
         }
 
         td {
@@ -657,7 +651,8 @@ $initial = strtoupper(substr($username, 0, 1));
                         </div>
 
                         <div class="form-group">
-                            <label for="solde"><i class="fas fa-euro-sign"></i> Solde:</label>
+                            <label for="solde"><i class="fas fa-wallet"></i> Solde:</label>
+
                             <input type="number" step="0.01" id="solde" name="solde" required>
                         </div>
 
@@ -676,13 +671,13 @@ $initial = strtoupper(substr($username, 0, 1));
                             <tr>
                                 <th><i class="fas fa-hashtag"></i> Numéro Compte</th>
                                 <th><i class="fas fa-user"></i> Nom et Prénom Client</th>
-                                <th><i class="fas fa-euro-sign"></i> Solde</th>
+                                <th><i class="fas fa-money-bill-wave"></i> Solde (Ar)</th>
                                 <th><i class="fas fa-cogs"></i> Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT * FROM compte ORDER BY num_compte DESC";
+                            $sql = "SELECT * FROM compte ORDER BY num_compte ASC";
                             $result = $conn->query($sql);
 
                             if ($result->num_rows > 0) {

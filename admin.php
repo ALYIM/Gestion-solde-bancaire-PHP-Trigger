@@ -2,6 +2,7 @@
 session_start();
 require_once 'config.php'; 
 
+
 // Vérification de connexion
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -18,6 +19,11 @@ if (!in_array($_SESSION['role'] ?? '', $allowed_admin_roles)) {
     exit();
 }
 
+// Récupérer le nom d'utilisateur de la session
+$username = $_SESSION['username'] ?? 'Admin';
+$user_initial = strtoupper(substr($username, 0, 1));
+
+
 // Récupérer les statistiques
 try {
     // Compter les utilisateurs
@@ -25,11 +31,11 @@ try {
     $totalUsers = $stmt->fetch_assoc()['total'];
     
     // Compter les comptes
-     $stmt = $conn->query("SELECT COUNT(*) as total FROM accounts");
+     $stmt = $conn->query("SELECT COUNT(*) as total FROM compte"); 
     $totalAccounts = $stmt->fetch_assoc()['total'];
     
     // Calculer le solde total
-    $stmt = $conn->query("SELECT SUM(balance) as total FROM accounts");
+    $stmt = $conn->query("SELECT SUM(solde) as total FROM compte");
     $totalBalance = $stmt->fetch_assoc()['total'] ?: 0;
     
     // Récupérer la liste des utilisateurs
@@ -39,7 +45,8 @@ try {
         $users[] = $row;
     }
     // Récupérer la liste des comptes
-    $stmt = $conn->query("SELECT account_number, client_name, balance, status FROM accounts ORDER BY account_number");
+    // Récupérer la liste des comptes
+    $stmt = $conn->query("SELECT num_compte, nom_client, solde FROM compte ORDER BY num_compte");
     $accounts = [];
     while ($row = $stmt->fetch_assoc()) {
         $accounts[] = $row;
@@ -637,17 +644,17 @@ if ($result_users->num_rows > 0) {
         <div class="sidebar-header">
             <div class="admin-avatar"><?php echo strtoupper(substr($_SESSION['username'] ?? 'A', 0, 1)); ?></div>
             <div class="admin-info">
-                <h3><?php echo htmlspecialchars($_SESSION['username'] ?? 'Admin'); ?></h3>
+                <h3><?= htmlspecialchars($username) ?></h3>
                 <p>Administrateur</p>
             </div>
         </div>
         
         <nav class="nav-menu">
-             
-            <a href="#" class="nav-item" data-section="users">
-                <i class="fas fa-users"></i>
+             <a href="#" class="nav-item" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
                 Dashboard
             </a>
+      
             <a href="#" class="nav-item" data-section="users">
                 <i class="fas fa-users"></i>
                 Utilisateurs
